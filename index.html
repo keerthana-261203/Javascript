@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager Template</title>
+    
+    <!-- 1. Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+
+    <!-- Main Container -->
+    <div class="max-w-2xl mx-auto py-10 px-4">
+        
+        <!-- Header Section -->
+        <header class="mb-8 text-center">
+
+            <h1 class="text-4xl font-bold text-blue-600 mb-2 abc123" id="title" class>Task Tracker</h1>
+
+            <p class="text-gray-500">Track your start and end dates easily.</p>
+        </header>
+
+        <!-- Form Section -->
+        <section class="bg-white p-6 rounded-lg shadow-md mb-8 border border-gray-100">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700 abc123">Add New Task</h2>
+            
+            <!-- Note: We add an ID here for JS Selection -->
+            <form id="dateForm" class="space-y-4">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Start Date Input -->
+                    <div>
+                        <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                        <input type="date" id="startDate" 
+                               class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                    </div>
+
+                    <!-- End Date Input -->
+                    <div>
+                        <label for="endDate" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                        <input type="date" id="endDate" 
+                               class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all">
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" 
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                    Add Task
+                </button>
+            </form>
+        </section>
+
+        <!-- Results Section (Where JS will inject the table) -->
+        <section id="pastTasks"></section>
+
+    </div>
+
+    <!-- 2. Script Section -->
+     <script src="app.js">
+    </script>
+
+
+</body>
+</html>
