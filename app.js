@@ -17,13 +17,14 @@ function handleSubmit(event) {
   let taskList = stored ? JSON.parse(stored) : [];
 
   const newTask = {
+    id: Date.now(),
     startDate,
     endDate,
   };
 
   taskList.push(newTask);
   localStorage.setItem("tasks", JSON.stringify(taskList));
-  alert("task Added");
+  alert("Task Added");
 
   document.getElementById("dateForm").reset();
   renderTable();
@@ -75,10 +76,15 @@ function displayTable(taskList) {
   const thEnd = document.createElement("th");
     thEnd.innerText = "End Date";
     thEnd.classList.add("p-2");
+
+  const thAction = document.createElement("th");
+  thAction.innerText=""; //no header text;
+  thAction.classList.add("p-2");
     
 
   headerRow.appendChild(thStart);
   headerRow.appendChild(thEnd);
+  headerRow.appendChild(thAction);
 
   thead.appendChild(headerRow);
 
@@ -104,16 +110,95 @@ function displayTable(taskList) {
       startDateTd.innerText = item.startDate;
       endDateTd.innerText = item.endDate;
 
+      //action body
+      const actionTd = document.createElement("td");   
+
+    //edit button
+
+      const editBtn = document.createElement("button");  
+      editBtn.innerText = "Edit";
+      editBtn.className = "p-2 text-blue-600";
+      editBtn.dataset.id = item.id  
+      
+      //delete button
+
+      const deleteBtn = document.createElement("button");  
+      deleteBtn.innerText = "Delete";
+      deleteBtn.className = "p-2 text-blue-600";
+      deleteBtn.dataset.id = item.id;
+
+
       rowItem.appendChild(startDateTd);
       rowItem.appendChild(endDateTd);
 
+      actionTd.appendChild(editBtn);
+      actionTd.appendChild(deleteBtn);
+
+      rowItem.appendChild(actionTd);
+
       tbody.appendChild(rowItem);
+
+//Delete operation
+
+      deleteBtn.addEventListener("click", () => {
+      const confirmDelete = confirm("Are you sure you want to delete this task?");
+      if (!confirmDelete) return; // stop if user cancels
+
+      // Get stored tasks
+      const stored = localStorage.getItem("tasks");
+      let taskList = stored ? JSON.parse(stored) : [];
+
+      // Remove the task with this ID
+      taskList = taskList.filter(task => task.id != item.id);
+
+     // Save updated list
+      localStorage.setItem("tasks", JSON.stringify(taskList));
+
+     // Alert success
+     alert("Task deleted");
+
+     // Re-render table
+     renderTable();
+    });
+
+    
+//Edit operation
+
+    editBtn.addEventListener("click", () => {
+    // Ask for new values directly
+    const newStart = prompt("Enter new Start Date:", item.startDate);
+    if (!newStart) return; // cancel if empty
+
+    const newEnd = prompt("Enter new End Date:", item.endDate);
+    if (!newEnd) return;
+
+    if (newStart > newEnd) {
+    alert("Start Date cannot be after End Date");
+    return;
+    }
+
+    // Update task immediately
+    const stored = localStorage.getItem("tasks");
+    let taskList = stored ? JSON.parse(stored) : [];
+
+    taskList = taskList.map(task =>
+    task.id == item.id ? { ...task, startDate: newStart, endDate: newEnd } : task);
+
+    localStorage.setItem("tasks", JSON.stringify(taskList));
+    alert("Task edited");
+
+    // Refresh table
+    renderTable();
+    });
+
+      
   }
 
     table.appendChild(tbody);
     section.appendChild(table);
 
-}
+  }
+
 
 document.getElementById("dateForm").addEventListener("submit", handleSubmit);
 
