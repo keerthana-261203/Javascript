@@ -1,11 +1,10 @@
-import { validateForm } from "./validation.js";
-import { displayTable } from "./display-table.js";
+import { displayTable, validateForm } from "./table-utils.js";
 
 const startDateError = document.getElementById("startDateError");
 const endDateError = document.getElementById("endDateError");
 const message = document.getElementById("message");
 
-function showMessage(text, type = "success") {
+export function showMessage(text, type = "success") {
     message.innerText = text;
     message.classList.remove("hidden");
     message.classList.remove("text-red-500", "text-green-600");
@@ -48,7 +47,7 @@ function handleSubmit(event) {
   renderTable();
 }
 
-function renderTable() {
+export function renderTable() {
   const section = document.getElementById("pastTasks");
   const stored = localStorage.getItem("tasks");
 
