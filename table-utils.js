@@ -23,21 +23,23 @@ export function displayTable(taskList) {
     const headerRow = document.createElement("tr");
 
   const thStart = document.createElement("th");
-    thStart.innerText = "Start Date";
+    thStart.innerHTML = `Start Date <button id=sortStart style="border:none; background:transparent">
+                         <img src="temp/arrow.png">   </button>`;
     thStart.classList.add("p-2");
 
   const thEnd = document.createElement("th");
-    thEnd.innerText = "End Date";
+    thEnd.innerHTML = `End Date <button id=sortEnd style="border:none; background:transparent">
+                      <img src="temp/arrow.png">      </button>`;
     thEnd.classList.add("p-2");
 
   const thAction = document.createElement("th");
-  thAction.innerText=""; //no header text;
+  thAction.innerText="Actions";
   thAction.classList.add("p-2");
     
-
+  headerRow.appendChild(thAction);
   headerRow.appendChild(thStart);
   headerRow.appendChild(thEnd);
-  headerRow.appendChild(thAction);
+  
 
   thead.appendChild(headerRow);
 
@@ -69,25 +71,24 @@ export function displayTable(taskList) {
     //edit button
 
       const editBtn = document.createElement("button");  
-      editBtn.innerText = "Edit";
+      editBtn.innerHTML = `<img src="temp/edit.png" width="16">`;
       editBtn.className = "p-2 text-blue-600";
       editBtn.dataset.id = item.id  
       
       //delete button
 
       const deleteBtn = document.createElement("button");  
-      deleteBtn.innerText = "Delete";
+      deleteBtn.innerHTML = `<img src="temp/delete.png" width="16">`;
       deleteBtn.className = "p-2 text-blue-600";
       deleteBtn.dataset.id = item.id;
-
-
-      rowItem.appendChild(startDateTd);
-      rowItem.appendChild(endDateTd);
 
       actionTd.appendChild(editBtn);
       actionTd.appendChild(deleteBtn);
 
       rowItem.appendChild(actionTd);
+
+      rowItem.appendChild(startDateTd);
+      rowItem.appendChild(endDateTd);
 
       tbody.appendChild(rowItem);
 
@@ -149,7 +150,32 @@ export function displayTable(taskList) {
     table.appendChild(tbody);
     section.appendChild(table);
 
+    const sortStartBtn = document.getElementById("sortStart");
+    const sortEndBtn = document.getElementById("sortEnd");
+
+    sortStartBtn.addEventListener("click", () => sortTasks("startDate"));
+    sortEndBtn.addEventListener("click", () => sortTasks("endDate"));
+
+
   }
+
+  function sortTasks(key) {
+  // 1. Get original data from localStorage
+  const stored = localStorage.getItem("tasks");
+  const taskList = stored ? JSON.parse(stored) : [];
+
+  // 2. Create a COPY (very important)
+  const sortableTasks = [...taskList];
+
+  // 3. Sort the COPY
+  sortableTasks.sort((a, b) => {
+    return new Date(a[key]) - new Date(b[key]);
+  });
+
+  // 4. Show sorted data in table
+  displayTable(sortableTasks);
+}
+
 
   export function validateForm(start, end) {
     let isValid = true;
