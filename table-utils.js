@@ -18,19 +18,20 @@ export function displayTable(taskList) {
     "mb-6", // Margin bottom
   );
 
-  const thead = document.createElement("thead");
+  const thead = document.createElement("thead");    //head
   thead.classList.add("bg-gray-200", "border-b", "border-gray-300");
     const headerRow = document.createElement("tr");
 
-  const thStart = document.createElement("th");
-    thStart.innerHTML = `Start Date <button id=sortStart style="border:none; background:transparent">
-                         <img src="temp/arrow.png">   </button>`;
+  const thStart = document.createElement("th");     //start
+    thStart.innerHTML = `Start Date <button id=sortStart style="border:none; background:transparent; padding:4px; cursor:pointer;">
+                         <img src="temp/arrow.png" height="16" width="16">   </button>`;
     thStart.classList.add("p-2");
 
-  const thEnd = document.createElement("th");
-    thEnd.innerHTML = `End Date <button id=sortEnd style="border:none; background:transparent">
-                      <img src="temp/arrow.png">      </button>`;
+  const thEnd = document.createElement("th");      //end
+    thEnd.innerHTML = `End Date <button id=sortEnd style="border:none; background:transparent; padding:4px; cursor:pointer;">
+                      <img src="temp/arrow.png" height="16" width="16">      </button>`;
     thEnd.classList.add("p-2");
+
 
   const thAction = document.createElement("th");
   thAction.innerText="Actions";
